@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
+import Validation from './components/Validation';
+import CharComponents from './components/CharComponent';
 import './App.css';
 
 function App() {
+
+  const [text, setTextState] = useState('');
+  const textLenght = text.length;
+  
+  const removeChar = (i) => {
+    const textArr = text.split('');
+    textArr.splice(i,1);
+    setTextState(textArr.join(''))
+  }
+  
+  const allChars = text
+    .split("")
+    .map((c, i) => (
+      <CharComponents char={c} key={i} onclick={() => removeChar(i)} />
+    ));
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>Count the lenght of input</h3>
+      <input type='text' value={text} onChange={e => setTextState(e.target.value)} />
+      <p>{textLenght}</p>
+      <Validation lenght={textLenght}/>
+      {allChars}
     </div>
   );
 }
